@@ -1,0 +1,15 @@
+#!/bin/sh /etc/rc.common
+
+START=99
+
+start() {
+    uci set network.wan.metric='1'
+	uci set network.rndis=interface
+	uci set network.rndis.proto='dhcp'
+	uci set network.rndis.ifname='eth2'
+	uci set network.rndis.metric='2'
+	uci set firewall.@zone[1].network='wan wan6 rndis'
+	uci commit
+	ifup rndis
+
+}
